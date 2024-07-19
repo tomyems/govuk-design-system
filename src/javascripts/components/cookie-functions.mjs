@@ -24,6 +24,13 @@ const TRACKING_LIVE_ID = 'GHT8W0QGD9'
 /* Users can (dis)allow different groups of cookies. */
 const COOKIE_CATEGORIES = {
   analytics: ['_ga', `_ga_${TRACKING_PREVIEW_ID}`, `_ga_${TRACKING_LIVE_ID}`],
+  /* Campaign cookies
+   *
+   * Cookies for campaign pages, so that we can embed YouTube videos and other
+   * embeddable content that sets cookies.
+   *
+   */
+  campaign: ['campaign'],
   /* Essential cookies
    *
    * Essential cookies cannot be deselected, but we want our cookie code to
@@ -41,7 +48,8 @@ const COOKIE_CATEGORIES = {
  * this will be ignored.
  */
 const DEFAULT_COOKIE_CONSENT = {
-  analytics: false
+  analytics: false,
+  campaign: false
 }
 
 /**
@@ -181,6 +189,13 @@ export function resetCookies() {
       // Disable GA if not allowed
       window[`ga-disable-G-${TRACKING_PREVIEW_ID}`] = true
       window[`ga-disable-G-${TRACKING_LIVE_ID}`] = true
+    }
+
+    if (cookieType === 'campaign') {
+      // Enable campaign cookies if allowed
+      window.campaign = true
+    } else {
+      window.campaign = false
     }
 
     if (!options[cookieType]) {
