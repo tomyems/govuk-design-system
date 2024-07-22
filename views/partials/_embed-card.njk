@@ -2,13 +2,19 @@
   <div class="govuk-grid-row" data-module="app-embed-card">
     <div class="govuk-grid-column-two-thirds-from-desktop">
       {{- caller() if caller else params.content | safe -}}
-      <iframe width="560" height="315" src="{{ params.ytSrc }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <a class="app-embed-card__placeholder" href="https://www.youtube.com/watch?v={{ params.ytId }}">
+        <div class="app-embed-card__placeholder-thumb-container">
+          <img class="app-image--no-border app-embed-card__placeholder-thumb-image" src="https://img.youtube.com/vi/{{ params.ytId }}/hqdefault.jpg"/>
+          <span class="govuk-visually-hidden">{{ params.placeholderText }}</span>
+        </div>
+      </a>
       <p>
         <a href="{{ params.transcriptHref }}">Read the full transcript</a>
-      </p>
+      </p>      
     </div>
     <div class="govuk-grid-column-one-third-from-desktop">
-      <img class="app-image--no-border" src="{{ params.authorImgSrc }}" alt="" role="presentation">
+      <img class="app-image--no-border" src="{{ params.authorImgSrc }}" alt="{{ params.authorImgAlt }}" role="presentation">
     </div>
   </div>
 {% endmacro %}
+

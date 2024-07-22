@@ -17,6 +17,7 @@ import Navigation from './components/navigation.mjs'
 import OptionsTable from './components/options-table.mjs'
 import Search from './components/search.mjs'
 import AppTabs from './components/tabs.mjs'
+import EmbedCard from './components/embed-card.mjs'
 
 // Initialise GOV.UK Frontend
 createAll(Button)
@@ -81,4 +82,9 @@ if ($backToTop) {
 const $cookiesPage = document.querySelector('[data-module="app-cookies-page"]')
 if ($cookiesPage) {
   new CookiesPage($cookiesPage)
+}
+
+const $embedCards = document.querySelectorAll('[data-module="app-embed-card"]')
+for (const embedCard of $embedCards) {
+  new EmbedCard(embedCard)
 }
