@@ -18,7 +18,7 @@ order: 16
 ## Watch the day 1 talks
 
 {% call embedCard({
-  ytSrc: "https://www.youtube-nocookie.com/embed/x91MPoITQ3I?si=CTLyI1MeMSsUqbE0",
+  ytId: "x91MPoITQ3I",
   transcriptHref: "https://www.google.com",
   authorImgSrc: "/images/dsd24-day1-speakers1.png"
 }) %}
