@@ -12,12 +12,12 @@ import {
 } from './components/cookie-functions.mjs'
 import CookiesPage from './components/cookies-page.mjs'
 import Copy from './components/copy.mjs'
+import EmbedCard from './components/embed-card.mjs'
 import Example from './components/example.mjs'
 import Navigation from './components/navigation.mjs'
 import OptionsTable from './components/options-table.mjs'
 import Search from './components/search.mjs'
 import AppTabs from './components/tabs.mjs'
-import EmbedCard from './components/embed-card.mjs'
 
 // Initialise GOV.UK Frontend
 createAll(Button)
@@ -85,6 +85,18 @@ if ($cookiesPage) {
 }
 
 const $embedCards = document.querySelectorAll('[data-module="app-embed-card"]')
-for (const embedCard of $embedCards) {
-  new EmbedCard(embedCard)
-}
+
+const lazyEmbedObserver = new IntersectionObserver(function (
+  entries,
+  observer
+) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      new EmbedCard(entry.target)
+    }
+  })
+})
+
+$embedCards.forEach(function (lazyEmbed) {
+  lazyEmbedObserver.observe(lazyEmbed)
+})
