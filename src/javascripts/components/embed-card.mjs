@@ -17,22 +17,65 @@ class EmbedCard {
 
     this.$module = $module
 
-    this.renderEmbed()
+    this.replacePlaceholder()
   }
 
   /**
-   * Render the embed
+   * Replace placeholder
    *
    * Replaces the placeholder with the iframe if cookies are set.
    */
-  renderEmbed() {
+  replacePlaceholder() {
     const consentCookie = getConsentCookie()
 
     if (consentCookie.campaign) {
-      console.log('YOUTUBE TIME')
-    } else {
-      console.log('NO')
+      const placeholder = this.$module.querySelector(
+        '.app-embed-card__placeholder'
+      )
+      const placeholderText = placeholder.querySelector(
+        '.app-embed-card__placeholder-text'
+      ).innerText
+
+      const ytHref = placeholder.getAttribute('href')
+      const ytId = ytHref.match(
+        /(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^?&"'>]+)/
+      )[5]
+
+      const iframe = this.createIframe(ytHref, ytId, placeholderText)
+
+      placeholder.remove()
+
+      const iframeContainer = this.$module.querySelector(
+        '.app-embed-card__placeholder-iframe-container'
+      )
+      iframeContainer.appendChild(iframe)
     }
+  }
+
+  /**
+   * Create the iframe
+   *
+   * Create the iframe for YouTube embed
+   *
+   * @param {string} ytId - YouTube ID
+   * @param {string} title - Title for iFrame (for screen readers)
+   */
+  createIframe(ytId, title) {
+    const iframe = document.createElement('IFRAME')
+
+    iframe.setAttribute('src', `https://www.youtube-nocookie.com/embed/${ytId}`)
+    iframe.setAttribute('width', 560)
+    iframe.setAttribute('height', 315)
+    iframe.setAttribute('title', title)
+    iframe.setAttribute(
+      'allow',
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+    )
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
+    iframe.setAttribute('allowfullscreen', true)
+    iframe.setAttribute('frameborder', 0)
+
+    return iframe
   }
 }
 

@@ -5,9 +5,12 @@
       <a class="app-embed-card__placeholder" href="https://www.youtube.com/watch?v={{ params.ytId }}">
         <div class="app-embed-card__placeholder-thumb-container">
           <img class="app-image--no-border app-embed-card__placeholder-thumb-image" src="https://img.youtube.com/vi/{{ params.ytId }}/hqdefault.jpg"/>
-          <span class="govuk-visually-hidden">{{ params.placeholderText }}</span>
+          <span class="app-embed-card__placeholder-text govuk-visually-hidden">
+            {{ params.placeholderText }}
+          </span>
         </div>
       </a>
+      <div class="app-embed-card__placeholder-iframe-container"></div>
       <p>
         <a href="{{ params.transcriptHref }}">Read the full transcript</a>
       </p>      
