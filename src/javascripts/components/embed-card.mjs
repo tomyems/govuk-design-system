@@ -26,13 +26,18 @@ class EmbedCard {
    * Replaces the placeholder with the iframe if cookies are set.
    */
   replacePlaceholder() {
+    if (this.$module.querySelector('iframe')) {
+      console.log('noop')
+      return
+    }
+
     const consentCookie = getConsentCookie()
 
-    if (consentCookie.campaign) {
+    if (consentCookie && consentCookie.campaign) {
       const placeholder = this.$module.querySelector(
         '.app-embed-card__placeholder'
       )
-      const placeholderText = placeholder.querySelector(
+      const title = this.$module.querySelector(
         '.app-embed-card__placeholder-text'
       ).innerText
 
@@ -41,7 +46,7 @@ class EmbedCard {
         /(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^?&"'>]+)/
       )[5]
 
-      const iframe = this.createIframe(ytHref, ytId, placeholderText)
+      const iframe = this.createIframe(ytId, title)
 
       placeholder.remove()
 
@@ -69,7 +74,7 @@ class EmbedCard {
     iframe.setAttribute('title', title)
     iframe.setAttribute(
       'allow',
-      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;'
     )
     iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
     iframe.setAttribute('allowfullscreen', true)
