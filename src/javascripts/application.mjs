@@ -25,12 +25,10 @@ createAll(NotificationBanner)
 createAll(SkipLink)
 
 // Initialise cookie banner
-const $cookieBanner = document.querySelector(
+const $cookieBanners = document.querySelectorAll(
   '[data-module="govuk-cookie-banner"]'
 )
-if ($cookieBanner) {
-  new CookieBanner($cookieBanner)
-}
+$cookieBanners.forEach(($cookieBanner) => new CookieBanner($cookieBanner))
 
 // Initialise analytics if consent is given
 const userConsent = getConsentCookie()
@@ -99,4 +97,22 @@ const lazyEmbedObserver = new IntersectionObserver(function (
 
 $embedCards.forEach(function (lazyEmbed) {
   lazyEmbedObserver.observe(lazyEmbed)
+})
+
+const targetNode = document.querySelector('[data-cookie-category="campaign"]')
+
+const callback = (mutationList, observer) => {
+  if (mutationList.length) {
+    $embedCards.forEach(function (lazyEmbed) {
+      lazyEmbedObserver.unobserve(lazyEmbed)
+      lazyEmbedObserver.observe(lazyEmbed)
+    })
+  }
+}
+
+const observer = new MutationObserver(callback)
+observer.observe(targetNode, {
+  attributes: true,
+  childList: true,
+  subtree: true
 })
