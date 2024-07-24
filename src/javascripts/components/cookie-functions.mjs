@@ -48,8 +48,8 @@ const COOKIE_CATEGORIES = {
  * this will be ignored.
  */
 const DEFAULT_COOKIE_CONSENT = {
-  analytics: false,
-  campaign: false
+  analytics: null, // tracks if has been asked at all
+  campaign: null // tracks if has been asked at all
 }
 
 /**
@@ -148,8 +148,6 @@ export function setConsentCookie(options) {
   // @ts-expect-error Property does not exist on window
   cookieConsent.version = window.GDS_CONSENT_COOKIE_VERSION
 
-  console.log(CONSENT_COOKIE_NAME, cookieConsent)
-
   // Set the consent cookie
   setCookie(CONSENT_COOKIE_NAME, JSON.stringify(cookieConsent), { days: 365 })
 
@@ -169,8 +167,6 @@ export function resetCookies() {
     JSON.parse(JSON.stringify(DEFAULT_COOKIE_CONSENT))
 
   for (const cookieType in options) {
-    console.log(cookieType)
-
     if (cookieType === 'version') {
       continue
     }
@@ -196,10 +192,7 @@ export function resetCookies() {
     }
 
     if (cookieType === 'campaign') {
-      // Enable campaign cookies if allowed
-      window.campaign = true
-    } else {
-      window.campaign = false
+      window.campaign = options[cookieType]
     }
 
     if (!options[cookieType]) {
