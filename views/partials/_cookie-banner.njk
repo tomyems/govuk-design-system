@@ -17,7 +17,8 @@
   ariaLabel: "Cookies on GOV.UK Design System",
   hidden: true,
   attributes: {
-    "data-module": "govuk-cookie-banner"
+    "data-module": "govuk-cookie-banner",
+    "data-cookie-category": "analytics"
   },
   messages: [
     {
@@ -103,12 +104,20 @@ to avoid a high cumulative layout shift (CLS) score https://web.dev/cls/ #}
       return (options && options.version >= window.GDS_CONSENT_COOKIE_VERSION)
     }
 
+    function analyticsIsNull (options) {
+      return (options && options.analytics === null)
+    }
+
     // Don't show the banner on the cookies page
     if (window.location.pathname !== "/cookies/") {
       // Show the banner if there is no consent cookie or if it is outdated
       var currentConsentCookie = document.cookie.match(new RegExp('(^| )design_system_cookies_policy=([^;]+)'))
 
-      if (!currentConsentCookie || !isValidConsentCookie(JSON.parse(currentConsentCookie[2]))) {
+      const cookieData = currentConsentCookie && JSON.parse(currentConsentCookie[2]);
+      const cookieNotSet = (!currentConsentCookie || !isValidConsentCookie(cookieData))
+      const analyticsNotSet = isValidConsentCookie(cookieData) && analyticsIsNull(cookieData)
+
+      if (cookieNotSet || analyticsNotSet) {
         var cookieBanner = document.querySelector("[data-module='govuk-cookie-banner']")
         cookieBanner.removeAttribute('hidden')
       }
