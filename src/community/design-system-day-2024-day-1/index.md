@@ -17,10 +17,13 @@ order: 16
 
 ## Watch the day 1 talks
 
+{% include "_campaign-cookie-banner.njk" %}
+
 {% call embedCard({
   ytId: "x91MPoITQ3I",
   transcriptHref: "https://www.google.com",
-  authorImgSrc: "/images/dsd24-day1-speakers1.png"
+  authorImgSrc: "/images/dsd24-day1-speakers1.png",
+  title: "The GOV.UK Design System in 5 years Video"
 }) %}
 
   <h3><a href="#">The GOV.UK Design System in 5 years</a></h3>
