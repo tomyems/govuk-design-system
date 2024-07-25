@@ -1,37 +1,37 @@
 {% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 
 {% set html %}
-  <p class="govuk-body">We’d like to use analytics cookies so we can understand how you use the Design System and make improvements.</p>
-  <p class="govuk-body">We also use essential cookies to remember if you’ve accepted analytics cookies.</p>
+  <p class="govuk-body">You'll need to accept cookies to watch the videos on this page.</p>
+  <p class="govuk-body">If you don't want to accept cookies, the videos and transcripts are also available on YouTube.</p>
 {% endset %}
 
 {% set acceptHtml %}
-  <p class="govuk-body">You’ve accepted analytics cookies. You can <a class="govuk-link" href="/cookies/">change your cookie settings</a> at any time.</p>
+  <p class="govuk-body">You’ve accepted campaign cookies. You can <a class="govuk-link" href="/cookies/">change your cookie settings</a> at any time.</p>
 {% endset %}
 
 {% set rejectHtml %}
-  <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" href="/cookies/">change your cookie settings</a> at any time.</p>
+  <p class="govuk-body">You’ve rejected campiagn cookies. You can <a class="govuk-link" href="/cookies/">change your cookie settings</a> at any time.</p>
 {% endset %}
 
 {{ govukCookieBanner({
-  ariaLabel: "Cookies on GOV.UK Design System",
+  ariaLabel: "Accept additional cookies to watch videos of Design System Day",
   hidden: true,
   attributes: {
     "data-module": "govuk-cookie-banner",
-    "data-cookie-category": "analytics"
+    "data-cookie-category": "campaign"
   },
   messages: [
     {
-      headingText: "Cookies on GOV.UK Design System",
+      headingText: "Accept additional cookies to watch videos of Design System Day",
       html: html,
       actions: [
         {
-          text: "Accept analytics cookies",
+          text: "Accept campaign cookies",
           type: "button",
           classes: "js-cookie-banner-accept"
         },
         {
-          text: "Reject analytics cookies",
+          text: "Reject campaign cookies",
           type: "button",
           classes: "js-cookie-banner-reject"
         },
@@ -92,23 +92,20 @@ to avoid a high cumulative layout shift (CLS) score https://web.dev/cls/ #}
       return (options && options.version >= window.GDS_CONSENT_COOKIE_VERSION)
     }
 
-    function analyticsIsNull (options) {
-      return (options && options.analytics === null)
+    function campaignIsNull (options) {
+      return (options && options.campaign === null)
     }
 
-    // Don't show the banner on the cookies page
-    if (window.location.pathname !== "/cookies/") {
-      // Show the banner if there is no consent cookie or if it is outdated
-      var currentConsentCookie = document.cookie.match(new RegExp('(^| )design_system_cookies_policy=([^;]+)'))
+    // Show the banner if there is no consent cookie or if it is outdated
+    var currentConsentCookie = document.cookie.match(new RegExp('(^| )design_system_cookies_policy=([^;]+)'))
 
-      const cookieData = currentConsentCookie && JSON.parse(currentConsentCookie[2]);
-      const cookieNotSet = (!currentConsentCookie || !isValidConsentCookie(cookieData))
-      const analyticsNotSet = isValidConsentCookie(cookieData) && analyticsIsNull(cookieData)
+    const cookieData = currentConsentCookie && JSON.parse(currentConsentCookie[2]);
+    const cookieNotSet = (!currentConsentCookie || !isValidConsentCookie(cookieData))
+    const campaignNotSet = isValidConsentCookie(cookieData) && campaignIsNull(cookieData)
 
-      if (cookieNotSet || analyticsNotSet) {
-        var cookieBanner = document.querySelector("[data-module='govuk-cookie-banner']")
-        cookieBanner.removeAttribute('hidden')
-      }
+    if (cookieNotSet || campaignNotSet) {
+      var cookieBanner = document.querySelector("[data-module='govuk-cookie-banner']")
+      cookieBanner.removeAttribute('hidden')
     }
   })()
 </script>
