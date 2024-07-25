@@ -99,20 +99,24 @@ $embedCards.forEach(function (lazyEmbed) {
   lazyEmbedObserver.observe(lazyEmbed)
 })
 
-const targetNode = document.querySelector('[data-cookie-category="campaign"]')
+const campaignCookieBanner = document.querySelector(
+  '[data-cookie-category="campaign"]'
+)
 
-const callback = (mutationList, observer) => {
-  if (mutationList.length) {
-    $embedCards.forEach(function (lazyEmbed) {
-      lazyEmbedObserver.unobserve(lazyEmbed)
-      lazyEmbedObserver.observe(lazyEmbed)
-    })
+if (campaignCookieBanner) {
+  const callback = (mutationList, observer) => {
+    if (mutationList.length) {
+      $embedCards.forEach(function (lazyEmbed) {
+        lazyEmbedObserver.unobserve(lazyEmbed)
+        lazyEmbedObserver.observe(lazyEmbed)
+      })
+    }
   }
-}
 
-const observer = new MutationObserver(callback)
-observer.observe(targetNode, {
-  attributes: true,
-  childList: true,
-  subtree: true
-})
+  const observer = new MutationObserver(callback)
+  observer.observe(campaignCookieBanner, {
+    attributes: true,
+    childList: true,
+    subtree: true
+  })
+}
