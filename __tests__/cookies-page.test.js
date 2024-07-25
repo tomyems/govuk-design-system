@@ -78,7 +78,7 @@ describe('Cookies page', () => {
       expect.arrayContaining([
         expect.objectContaining({
           name: 'design_system_cookies_policy',
-          value: '{"analytics":true,"version":1}'
+          value: '{"analytics":true,"campaign":false,"version":2}'
         })
       ])
     )
@@ -91,7 +91,7 @@ describe('Cookies page', () => {
       expect.arrayContaining([
         expect.objectContaining({
           name: 'design_system_cookies_policy',
-          value: '{"analytics":false,"version":1}'
+          value: '{"analytics":false,"campaign":false,"version":2}'
         })
       ])
     )

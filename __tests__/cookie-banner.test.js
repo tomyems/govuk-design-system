@@ -85,7 +85,7 @@ describe('Cookie banner', () => {
     })
 
     it('is hidden if the consent cookie version is valid', async () => {
-      const value = JSON.stringify({ analytics: false, version: 1 })
+      const value = JSON.stringify({ analytics: false, version: 2 })
       await page.setCookie({ ...cookieParam, value })
 
       // Reload page again
@@ -105,7 +105,11 @@ describe('Cookie banner', () => {
         expect.arrayContaining([
           expect.objectContaining({
             name: cookieParam.name,
-            value: JSON.stringify({ analytics: true, version: 1 })
+            value: JSON.stringify({
+              analytics: true,
+              campaign: null,
+              version: 2
+            })
           })
         ])
       )
@@ -138,7 +142,11 @@ describe('Cookie banner', () => {
         expect.arrayContaining([
           expect.objectContaining({
             name: cookieParam.name,
-            value: JSON.stringify({ analytics: false, version: 1 })
+            value: JSON.stringify({
+              analytics: false,
+              campaign: null,
+              version: 2
+            })
           })
         ])
       )
